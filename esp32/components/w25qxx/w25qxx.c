@@ -17,7 +17,6 @@ static const char *TAG = "W25QXX";
 
 // Pin mapping
 // ESP32 (VSPI)
-#define HOST_ID  3
 #define SPI_DMA_CHAN 1
 
 // Handle of the wear levelling library instance
@@ -60,17 +59,17 @@ void app_main(void)
 static esp_flash_t* init_ext_flash(void)
 {
     const spi_bus_config_t bus_config = {
-        .mosi_io_num = CONFIG_HW_W25QXX_MOSI_GPIO,
-        .miso_io_num = CONFIG_HW_W25QXX_MISO_GPIO,
-        .sclk_io_num = CONFIG_HW_W25QXX_CLK_GPIO,
-        .quadhd_io_num = CONFIG_HW_W25QXX_HD_GPIO,
-        .quadwp_io_num = CONFIG_HW_W25QXX_WP_GPIO,
+        .mosi_io_num = MOSI_GPIO,
+        .miso_io_num = MISO_GPIO,
+        .sclk_io_num = SCLK_GPIO,
+        .quadhd_io_num = HD_GPIO,
+        .quadwp_io_num = WP_GPIO,
     };
 
     const esp_flash_spi_device_config_t device_config = {
-        .host_id = HOST_ID,
+        .host_id = SPI_HOST,
         .cs_id = 0,
-        .cs_io_num = CONFIG_HW_W25QXX_CS_GPIO,
+        .cs_io_num = CS_GPIO,
         .io_mode = SPI_FLASH_DIO,
         .freq_mhz = FLASH_FREQ_MHZ,
     };
