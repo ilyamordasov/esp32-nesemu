@@ -11,7 +11,7 @@
 #include "soc/spi_pins.h"
 
 // h2 and c2 will not support external flash
-#define FLASH_FREQ_MHZ      20
+#define FLASH_FREQ_MHZ      40
 
 #define PIN_NUM_MISO  CONFIG_W25QXX_PIN_MISO
 #define PIN_NUM_MOSI  CONFIG_W25QXX_PIN_MOSI
@@ -19,12 +19,9 @@
 #define PIN_NUM_CS    CONFIG_W25QXX_PIN_CS
 #define PIN_NUM_WS    CONFIG_W25QXX_PIN_HD
 #define PIN_NUM_HD    CONFIG_W25QXX_PIN_WS
+#define SPI_DMA_CHAN SPI_DMA_CH_AUTO
 
 static const char *TAG = "W25QXX";
-
-// Pin mapping
-// ESP32 (VSPI)
-#define SPI_DMA_CHAN SPI_DMA_CH_AUTO
 
 // Handle of the wear levelling library instance
 static wl_handle_t s_wl_handle = WL_INVALID_HANDLE;
