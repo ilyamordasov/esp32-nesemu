@@ -28,7 +28,7 @@ static const char *TAG = "W25QXX";
 static wl_handle_t s_wl_handle = WL_INVALID_HANDLE;
 
 // Mount path for the partition
-const char *base_path = "/roms";
+const char *base_path = "/extflash";
 
 static esp_flash_t* init_ext_flash(void);
 static const esp_partition_t* add_partition(esp_flash_t* ext_flash, const char* partition_label);
@@ -179,10 +179,10 @@ static bool mount_fatfs(const char* partition_label)
 
 void w25qxx_listdir(void) {
     // Open directory
-    ESP_LOGI(TAG, "Check /roms dir");
+    ESP_LOGI(TAG, "Check /extflash dir");
     DIR dir;
     FILINFO fno;
-    FRESULT res = f_opendir(&dir, "/roms");
+    FRESULT res = f_opendir(&dir, "/extflash");
     if (res == FR_OK) {
         ESP_LOGI(TAG, "FR_OK");
         while (true) {
