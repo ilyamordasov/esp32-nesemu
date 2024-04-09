@@ -26,10 +26,10 @@ char *osd_getromdata() {
 	esp_err_t err;
 	nvs_flash_init();
 	part=esp_partition_find_first(0x40, 1, NULL);
-	if (part==0) printf("Couldn't find rom part!\n");
+	if (part==0) ESP_LOGE(TAG, "Couldn't find rom part!\n");
 	err=esp_partition_mmap(part, 0, 3*1024*1024, SPI_FLASH_MMAP_DATA, (const void**)&romdata, &hrom);
-	if (err!=ESP_OK) printf("Couldn't map rom part!\n");
-	printf("Initialized. ROM@%p\n", romdata);
+	if (err!=ESP_OK) ESP_LOGE(TAG, "Couldn't map rom part!\n");
+	ESP_LOGI(TAG, "Initialized. ROM@%p\n", romdata);
     return (char*)romdata;
 }
 
