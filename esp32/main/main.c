@@ -39,19 +39,16 @@ esp_err_t event_handler(void *ctx, system_event_t *event)
     return ESP_OK;
 }
 
-void init_w25qxx()
-{
-	w25qxx_init();
-	void w25qxx_listdir();
-}
-
 
 int app_main(void)
 {
-	printf("NoFrendo start!\n");
-	init_w25qxx();
+	ESP_LOGI(TAG, "NoFrendo start!\n");
+	
+	w25qxx_init();
+	w25qxx_listdir();
+
 	// nofrendo_main(0, NULL);
-	// printf("NoFrendo died? WtF?\n");
+	// ESP_LOGI(TAG, "NoFrendo died? WtF?\n");
 	// asm("break.n 1");
     return 0;
 }
