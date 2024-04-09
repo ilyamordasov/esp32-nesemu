@@ -13,6 +13,13 @@
 // h2 and c2 will not support external flash
 #define FLASH_FREQ_MHZ      40
 
+#define PIN_NUM_MISO  CONFIG_W25QXX_PIN_MISO
+#define PIN_NUM_MOSI  CONFIG_W25QXX_PIN_MOSI
+#define PIN_NUM_CLK   CONFIG_W25QXX_PIN_CLK
+#define PIN_NUM_CS    CONFIG_W25QXX_PIN_CS
+#define PIN_NUM_WS    CONFIG_W25QXX_PIN_HD
+#define PIN_NUM_HD    CONFIG_W25QXX_PIN_WS
+
 static const char *TAG = "W25QXX";
 
 // Pin mapping
@@ -83,7 +90,7 @@ static esp_flash_t* init_ext_flash(void)
 
     // Initialize the SPI bus
     ESP_LOGI(TAG, "DMA CHANNEL: %d", SPI_DMA_CHAN);
-    ESP_ERROR_CHECK(spi_bus_initialize(HOST_ID, &bus_config, SPI_DMA_CHAN));
+    ESP_ERROR_CHECK(spi_bus_initialize(SPI_HOST, &bus_config, SPI_DMA_CHAN));
 
     // Add device to the SPI bus
     esp_flash_t* ext_flash;
