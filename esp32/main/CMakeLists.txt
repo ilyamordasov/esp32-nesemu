@@ -1,6 +1,6 @@
 set(priv_requires fatfs console)
 
-list(APPEND priv_requires wear_levelling esp_partition)
+list(APPEND priv_requires wear_levelling esp_partition spi_flash)
 
 idf_component_register(
     SRCS
