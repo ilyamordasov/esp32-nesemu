@@ -29,8 +29,6 @@ jobs:
         idf_ver: ["release-v5.2"] #["release-v5.1", "release-v5.2"]
         idf_target: ["esp32"]
     runs-on: ubuntu-latest
-    # container:
-    #   image: espressif/esp-matter:latest
 
     steps:
     - name: Checkout repo
