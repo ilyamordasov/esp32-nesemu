@@ -1,49 +1,37 @@
-/* Example of FAT filesystem on external Flash.
-   This example code is in the Public Domain (or CC0 licensed, at your option.)
-
-   Unless required by applicable law or agreed to in writing, this
-   software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-   CONDITIONS OF ANY KIND, either express or implied.
-
-   This sample shows how to store files inside a FAT filesystem.
-   FAT filesystem is stored in a partition inside SPI flash, using the
-   flash wear levelling library.
-*/
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include "sdkconfig.h"
 #include "esp_flash.h"
 #include "esp_flash_spi_init.h"
 #include "esp_partition.h"
 #include "esp_vfs.h"
 #include "esp_vfs_fat.h"
 #include "esp_system.h"
+#include "soc/spi_pins.h"
 
-#define HOST_ID  SPI3_HOST
-#define PIN_MOSI SPI3_IOMUX_PIN_NUM_MOSI
-#define PIN_MISO SPI3_IOMUX_PIN_NUM_MISO
-#define PIN_CLK  SPI3_IOMUX_PIN_NUM_CLK
-#define PIN_CS   SPI3_IOMUX_PIN_NUM_CS
-#define PIN_WP   SPI3_IOMUX_PIN_NUM_WP
-#define PIN_HD   SPI3_IOMUX_PIN_NUM_HD
-#define SPI_DMA_CHAN SPI_DMA_CH_AUTO
+// h2 and c2 will not support external flash
+#define FLASH_FREQ_MHZ      40
 
 static const char *TAG = "W25QXX";
+
+// Pin mapping
+// ESP32 (VSPI)
+#define HOST_ID  3
+#define SPI_DMA_CHAN 1
 
 // Handle of the wear levelling library instance
 static wl_handle_t s_wl_handle = WL_INVALID_HANDLE;
 
 // Mount path for the partition
-const char *base_path = "/nesgames";
+const char *base_path = "/roms";
 
 static esp_flash_t* init_ext_flash(void);
 static const esp_partition_t* add_partition(esp_flash_t* ext_flash, const char* partition_label);
 static void list_data_partitions(void);
 static bool mount_fatfs(const char* partition_label);
-static void get_fatfs_usage(size_t* out_total_bytes, size_t* out_free_bytes);
 
-void w25qxx_init(void)
+void app_main(void)
 {
     // Set up SPI bus and initialize the external SPI Flash chip
     esp_flash_t* flash = init_ext_flash();
@@ -52,7 +40,7 @@ void w25qxx_init(void)
     }
 
     // Add the entire external flash chip as a partition
-    const char *partition_label = "nesgames";
+    const char *partition_label = "roms";
     add_partition(flash, partition_label);
 
     // List the available partitions
@@ -64,44 +52,27 @@ void w25qxx_init(void)
     }
 
     // Print FAT FS size information
-    size_t bytes_total, bytes_free;
-    get_fatfs_usage(&bytes_total, &bytes_free);
-    printf("FAT FS: %d kB total, %d kB free", bytes_total / 1024, bytes_free / 1024);
-}
-
-void w25qxx_listdir(void) {
-    DIR* dir = opendir("/nesgames");
-    if (dir == NULL) {
-        return;
-    }
-
-    while (true) {
-        struct dirent* de = readdir(dir);
-        if (!de) {
-            break;
-        }
-        printf("Found file: %s\n", de->d_name);
-    }
-
-    closedir(dir);
+    uint64_t bytes_total, bytes_free;
+    esp_vfs_fat_info(base_path, &bytes_total, &bytes_free);
+    ESP_LOGI(TAG, "FAT FS: %" PRIu64 " kB total, %" PRIu64 " kB free", bytes_total / 1024, bytes_free / 1024);
 }
 
 static esp_flash_t* init_ext_flash(void)
 {
     const spi_bus_config_t bus_config = {
-        .mosi_io_num = SPI3_IOMUX_PIN_NUM_MOSI,
-        .miso_io_num = SPI3_IOMUX_PIN_NUM_MISO,
-        .sclk_io_num = SPI3_IOMUX_PIN_NUM_CLK,
-        .quadhd_io_num = SPI3_IOMUX_PIN_NUM_HD,
-        .quadwp_io_num = SPI3_IOMUX_PIN_NUM_WP,
+        .mosi_io_num = CONFIG_HW_W25QXX_MOSI_GPIO,
+        .miso_io_num = CONFIG_HW_W25QXX_MISO_GPIO,
+        .sclk_io_num = CONFIG_HW_W25QXX_CLK_GPIO,
+        .quadhd_io_num = CONFIG_HW_W25QXX_HD_GPIO,
+        .quadwp_io_num = CONFIG_HW_W25QXX_WP_GPIO,
     };
 
     const esp_flash_spi_device_config_t device_config = {
-        .host_id = SPI3_HOST,
+        .host_id = HOST_ID,
         .cs_id = 0,
-        .cs_io_num = SPI3_IOMUX_PIN_NUM_CS,
+        .cs_io_num = CONFIG_HW_W25QXX_CS_GPIO,
         .io_mode = SPI_FLASH_DIO,
-        .speed = ESP_FLASH_40MHZ,
+        .freq_mhz = FLASH_FREQ_MHZ,
     };
 
     ESP_LOGI(TAG, "Initializing external SPI Flash");
@@ -112,7 +83,8 @@ static esp_flash_t* init_ext_flash(void)
     );
 
     // Initialize the SPI bus
-    ESP_ERROR_CHECK(spi_bus_initialize(VSPI_HOST, &bus_config, SPI_DMA_CH_AUTO));
+    ESP_LOGI(TAG, "DMA CHANNEL: %d", SPI_DMA_CHAN);
+    ESP_ERROR_CHECK(spi_bus_initialize(HOST_ID, &bus_config, SPI_DMA_CHAN));
 
     // Add device to the SPI bus
     esp_flash_t* ext_flash;
@@ -128,16 +100,21 @@ static esp_flash_t* init_ext_flash(void)
     // Print out the ID and size
     uint32_t id;
     ESP_ERROR_CHECK(esp_flash_read_id(ext_flash, &id));
-    ESP_LOGI(TAG, "Initialized external Flash, size=%d KB, ID=0x%x", ext_flash->size / 1024, id);
+    ESP_LOGI(TAG, "Initialized external Flash, size=%" PRIu32 " KB, ID=0x%" PRIx32, ext_flash->size / 1024, id);
 
     return ext_flash;
 }
 
 static const esp_partition_t* add_partition(esp_flash_t* ext_flash, const char* partition_label)
 {
-    ESP_LOGI(TAG, "Adding external Flash as a partition, label=\"%s\", size=%d KB", partition_label, ext_flash->size / 1024);
+    ESP_LOGI(TAG, "Adding external Flash as a partition, label=\"%s\", size=%" PRIu32 " KB", partition_label, ext_flash->size / 1024);
     const esp_partition_t* fat_partition;
-    ESP_ERROR_CHECK(esp_partition_register_external(ext_flash, 0, ext_flash->size, partition_label, ESP_PARTITION_TYPE_DATA, ESP_PARTITION_SUBTYPE_DATA_FAT, &fat_partition));
+    const size_t offset = 0;
+    ESP_ERROR_CHECK(esp_partition_register_external(ext_flash, offset, ext_flash->size, partition_label, ESP_PARTITION_TYPE_DATA, ESP_PARTITION_SUBTYPE_DATA_FAT, &fat_partition));
+
+    // Erase space of partition on the external flash chip
+    ESP_LOGI(TAG, "Erasing partition range, offset=%u size=%" PRIu32 " KB", offset, ext_flash->size / 1024);
+    ESP_ERROR_CHECK(esp_partition_erase_range(fat_partition, offset, ext_flash->size));
     return fat_partition;
 }
 
@@ -148,7 +125,7 @@ static void list_data_partitions(void)
 
     for (; it != NULL; it = esp_partition_next(it)) {
         const esp_partition_t *part = esp_partition_get(it);
-        ESP_LOGI(TAG, "- partition '%s', subtype %d, offset 0x%x, size %d kB",
+        ESP_LOGI(TAG, "- partition '%s', subtype %d, offset 0x%" PRIx32 ", size %" PRIu32 " kB",
         part->label, part->subtype, part->address, part->size / 1024);
     }
 
@@ -163,7 +140,7 @@ static bool mount_fatfs(const char* partition_label)
             .format_if_mount_failed = true,
             .allocation_unit_size = CONFIG_WL_SECTOR_SIZE
     };
-    esp_err_t err = esp_vfs_fat_spiflash_mount(base_path, partition_label, &mount_config, &s_wl_handle);
+    esp_err_t err = esp_vfs_fat_spiflash_mount_rw_wl(base_path, partition_label, &mount_config, &s_wl_handle);
     if (err != ESP_OK) {
         ESP_LOGE(TAG, "Failed to mount FATFS (%s)", esp_err_to_name(err));
         return false;
@@ -171,20 +148,19 @@ static bool mount_fatfs(const char* partition_label)
     return true;
 }
 
-static void get_fatfs_usage(size_t* out_total_bytes, size_t* out_free_bytes)
-{
-    FATFS *fs;
-    size_t free_clusters;
-    int res = f_getfree("0:", &free_clusters, &fs);
-    assert(res == FR_OK);
-    size_t total_sectors = (fs->n_fatent - 2) * fs->csize;
-    size_t free_sectors = free_clusters * fs->csize;
+void w25qxx_listdir(void) {
+    DIR* dir = opendir("/roms");
+    if (dir == NULL) {
+        return;
+    }
 
-    // assuming the total size is < 4GiB, should be true for SPI Flash
-    if (out_total_bytes != NULL) {
-        *out_total_bytes = total_sectors * fs->ssize;
+    while (true) {
+        struct dirent* de = readdir(dir);
+        if (!de) {
+            break;
+        }
+        printf("Found file: %s\n", de->d_name);
     }
-    if (out_free_bytes != NULL) {
-        *out_free_bytes = free_sectors * fs->ssize;
-    }
+
+    closedir(dir);
 }
