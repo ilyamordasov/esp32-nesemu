@@ -20,6 +20,15 @@
 #include "esp_vfs_fat.h"
 #include "esp_system.h"
 
+#define HOST_ID  SPI3_HOST
+#define PIN_MOSI SPI3_IOMUX_PIN_NUM_MOSI
+#define PIN_MISO SPI3_IOMUX_PIN_NUM_MISO
+#define PIN_CLK  SPI3_IOMUX_PIN_NUM_CLK
+#define PIN_CS   SPI3_IOMUX_PIN_NUM_CS
+#define PIN_WP   SPI3_IOMUX_PIN_NUM_WP
+#define PIN_HD   SPI3_IOMUX_PIN_NUM_HD
+#define SPI_DMA_CHAN SPI_DMA_CH_AUTO
+
 static const char *TAG = "W25QXX";
 
 // Handle of the wear levelling library instance
@@ -57,7 +66,7 @@ void w25qxx_init(void)
     // Print FAT FS size information
     size_t bytes_total, bytes_free;
     get_fatfs_usage(&bytes_total, &bytes_free);
-    ESP_LOGI(TAG, "FAT FS: %d kB total, %d kB free", bytes_total / 1024, bytes_free / 1024);
+    printf("FAT FS: %d kB total, %d kB free", bytes_total / 1024, bytes_free / 1024);
 }
 
 void w25qxx_listdir(void) {
@@ -71,7 +80,7 @@ void w25qxx_listdir(void) {
         if (!de) {
             break;
         }
-        ESP_LOGI(TAG, "Found file: %s\n", de->d_name);
+        printf("Found file: %s\n", de->d_name);
     }
 
     closedir(dir);
@@ -80,17 +89,17 @@ void w25qxx_listdir(void) {
 static esp_flash_t* init_ext_flash(void)
 {
     const spi_bus_config_t bus_config = {
-        .mosi_io_num = VSPI_IOMUX_PIN_NUM_MOSI,
-        .miso_io_num = VSPI_IOMUX_PIN_NUM_MISO,
-        .sclk_io_num = VSPI_IOMUX_PIN_NUM_CLK,
-        .quadhd_io_num = VSPI_IOMUX_PIN_NUM_HD,
-        .quadwp_io_num = VSPI_IOMUX_PIN_NUM_WP,
+        .mosi_io_num = SPI3_IOMUX_PIN_NUM_MOSI,
+        .miso_io_num = SPI3_IOMUX_PIN_NUM_MISO,
+        .sclk_io_num = SPI3_IOMUX_PIN_NUM_CLK,
+        .quadhd_io_num = SPI3_IOMUX_PIN_NUM_HD,
+        .quadwp_io_num = SPI3_IOMUX_PIN_NUM_WP,
     };
 
     const esp_flash_spi_device_config_t device_config = {
-        .host_id = VSPI_HOST,
+        .host_id = SPI3_HOST,
         .cs_id = 0,
-        .cs_io_num = VSPI_IOMUX_PIN_NUM_CS,
+        .cs_io_num = SPI3_IOMUX_PIN_NUM_CS,
         .io_mode = SPI_FLASH_DIO,
         .speed = ESP_FLASH_40MHZ,
     };
@@ -103,7 +112,7 @@ static esp_flash_t* init_ext_flash(void)
     );
 
     // Initialize the SPI bus
-    ESP_ERROR_CHECK(spi_bus_initialize(VSPI_HOST, &bus_config, 1));
+    ESP_ERROR_CHECK(spi_bus_initialize(VSPI_HOST, &bus_config, SPI_DMA_CH_AUTO));
 
     // Add device to the SPI bus
     esp_flash_t* ext_flash;
