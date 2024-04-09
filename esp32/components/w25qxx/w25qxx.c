@@ -31,7 +31,7 @@ static const char *TAG = "W25QXX";
 static wl_handle_t s_wl_handle = WL_INVALID_HANDLE;
 
 // Mount path for the partition
-const char *base_path = "/extflash";
+const char *base_path = "/roms";
 
 static esp_flash_t* init_ext_flash(void);
 static const esp_partition_t* add_partition(esp_flash_t* ext_flash, const char* partition_label);
@@ -65,7 +65,7 @@ void w25qxx_init(void)
 
     // Create a file in FAT FS
     ESP_LOGI(TAG, "Opening file");
-    FILE *f = fopen("/extflash/hello.txt", "wb");
+    FILE *f = fopen("/roms/hello.txt", "wb");
     if (f == NULL) {
         ESP_LOGE(TAG, "Failed to open file for writing");
         return;
@@ -76,7 +76,7 @@ void w25qxx_init(void)
 
     // Open file for reading
     ESP_LOGI(TAG, "Reading file");
-    f = fopen("/extflash/hello.txt", "rb");
+    f = fopen("/roms/hello.txt", "rb");
     if (f == NULL) {
         ESP_LOGE(TAG, "Failed to open file for reading");
         return;
@@ -182,10 +182,10 @@ static bool mount_fatfs(const char* partition_label)
 
 void w25qxx_listdir(void) {
     // Open directory
-    ESP_LOGI(TAG, "Check /extflash dir");
+    ESP_LOGI(TAG, "Check /roms dir");
 
     struct dirent *d;
-    DIR *dh = opendir("/extflash");
+    DIR *dh = opendir("/roms");
     if (!dh) {
         if (errno == ENOENT) {
             //If the directory is not found
@@ -200,27 +200,4 @@ void w25qxx_listdir(void) {
     while ((d = readdir(dh)) != NULL) {
         printf("%s\n", d->d_name);
     }
-
-    // DIR dir;
-    // FILINFO fno;
-    // FRESULT res = f_opendir(&dir, "/extflash");
-    // if (res == FR_OK) {
-    //     ESP_LOGI(TAG, "FR_OK");
-    //     while (true) {
-    //         res = f_readdir(&dir, &fno);
-    //         if (res != FR_OK || fno.fname[0] == 0) {
-    //             break;  // No more files
-    //         }
-    //         if (fno.fattrib & AM_DIR) {
-    //             ESP_LOGI(TAG, "It's a directory");
-    //         } else {
-    //             // It's a file
-    //             printf("File: %s\n", fno.fname);
-    //         }
-    //     }
-    //     f_closedir(&dir);
-    // }
-    // else {
-    //     ESP_LOGE(TAG, "FR_NOT_OK - %d", res);
-    // }
 }
