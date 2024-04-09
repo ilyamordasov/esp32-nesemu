@@ -9,7 +9,7 @@ menu "W25QXX Configuration"
 		default 19 if IDF_TARGET_ESP32C3
 		default 30 if IDF_TARGET_ESP32C6
 
-	config CONFIG_W25QXX_PIN_MISO
+	config W25QXX_PIN_MISO
 		int "MISO GPIO number"
 		range 0 GPIO_RANGE_MAX
 		default 23 if IDF_TARGET_ESP32
@@ -21,7 +21,7 @@ menu "W25QXX Configuration"
 			On the ESP32, GPIOs 35-39 are input-only so cannot be used as outputs.
 			On the ESP32-S2, GPIO 46 is input-only so cannot be used as outputs.
 
-	config CONFIG_W25QXX_PIN_MOSI
+	config W25QXX_PIN_MOSI
 		int "MOSI GPIO number"
 		range 0 GPIO_RANGE_MAX
 		default 25 if IDF_TARGET_ESP32
@@ -33,7 +33,7 @@ menu "W25QXX Configuration"
 			On the ESP32, GPIOs 35-39 are input-only so cannot be used as outputs.
 			On the ESP32-S2, GPIO 46 is input-only so cannot be used as outputs.
 
-	config CONFIG_W25QXX_PIN_CLK
+	config W25QXX_PIN_CLK
 		int "SCLK GPIO number"
 		range 0 GPIO_RANGE_MAX
 		default 19 if IDF_TARGET_ESP32
@@ -45,7 +45,7 @@ menu "W25QXX Configuration"
 			On the ESP32, GPIOs 35-39 are input-only so cannot be used as outputs.
 			On the ESP32-S2, GPIO 46 is input-only so cannot be used as outputs.
 
-	config CONFIG_W25QXX_PIN_CS
+	config W25QXX_PIN_CS
 		int "CS GPIO number"
 		range 0 GPIO_RANGE_MAX
 		default  22 if IDF_TARGET_ESP32
@@ -57,7 +57,7 @@ menu "W25QXX Configuration"
 			On the ESP32, GPIOs 35-39 are input-only so cannot be used as outputs.
 			On the ESP32-S2, GPIO 46 is input-only so cannot be used as outputs.
 
-	config CONFIG_W25QXX_PIN_HD
+	config W25QXX_PIN_HD
 		int "HD GPIO number"
 		range 0 GPIO_RANGE_MAX
 		default  16 if IDF_TARGET_ESP32
@@ -66,7 +66,7 @@ menu "W25QXX Configuration"
 		help
 			GPIO number (IOxx) to SPI HD.
 
-	config CONFIG_W25QXX_PIN_WS
+	config W25QXX_PIN_WS
 		int "WS GPIO number"
 		range 0 GPIO_RANGE_MAX
 		default  15 if IDF_TARGET_ESP32
