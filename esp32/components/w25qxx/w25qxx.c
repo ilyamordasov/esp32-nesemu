@@ -57,6 +57,8 @@ void w25qxx_init(void)
     uint64_t bytes_total, bytes_free;
     esp_vfs_fat_info(base_path, &bytes_total, &bytes_free);
     ESP_LOGI(TAG, "FAT FS: %" PRIu64 " kB total, %" PRIu64 " kB free", bytes_total / 1024, bytes_free / 1024);
+
+    w25qxx_listdir();
 }
 
 static esp_flash_t* init_ext_flash(void)
@@ -152,7 +154,7 @@ void w25qxx_listdir(void) {
     ESP_LOGI(TAG, "Check /roms dir");
     DIR dir;
     FILINFO fno;
-    FRESULT res = f_opendir(&dir, "/");
+    FRESULT res = f_opendir(&dir, "/roms");
     if (res == FR_OK) {
         ESP_LOGI(TAG, "FR_OK");
         while (true) {
