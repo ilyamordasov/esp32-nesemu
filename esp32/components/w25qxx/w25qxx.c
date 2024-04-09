@@ -69,8 +69,8 @@ static esp_flash_t* init_ext_flash(void)
         .mosi_io_num = PIN_NUM_MOSI,
         .miso_io_num = PIN_NUM_MISO,
         .sclk_io_num = PIN_NUM_CLK,
-        .quadhd_io_num = PIN_NUM_HD,
-        .quadwp_io_num = PIN_NUM_WS,
+        .quadhd_io_num = -1,
+        .quadwp_io_num = -1,
     };
 
     const esp_flash_spi_device_config_t device_config = {

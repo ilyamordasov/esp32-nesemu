@@ -1,6 +1,7 @@
 ## IDF Component Manager Manifest File
 dependencies:
   ##espressif/esp_tinyusb: "^1.4.2"
-  ## Required IDF version
+  lvgl/lvgl: "~8.3.0"
+  esp_lcd_ili9341: "^1.0"
   idf:
     version: ">=5.1.0"

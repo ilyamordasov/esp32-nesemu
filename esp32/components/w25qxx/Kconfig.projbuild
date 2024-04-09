@@ -12,7 +12,7 @@ menu "W25QXX Configuration"
 	config W25QXX_PIN_MISO
 		int "MISO GPIO number"
 		range 0 GPIO_RANGE_MAX
-		default 23 if IDF_TARGET_ESP32
+		default 25 if IDF_TARGET_ESP32
 		default 37 if IDF_TARGET_ESP32S2 || IDF_TARGET_ESP32S3
 		default  0 # C3 and others
 		help
@@ -24,7 +24,7 @@ menu "W25QXX Configuration"
 	config W25QXX_PIN_MOSI
 		int "MOSI GPIO number"
 		range 0 GPIO_RANGE_MAX
-		default 25 if IDF_TARGET_ESP32
+		default 23 if IDF_TARGET_ESP32
 		default 35 if IDF_TARGET_ESP32S2 || IDF_TARGET_ESP32S3
 		default  1 # C3 and others
 		help
@@ -48,7 +48,7 @@ menu "W25QXX Configuration"
 	config W25QXX_PIN_CS
 		int "CS GPIO number"
 		range 0 GPIO_RANGE_MAX
-		default  22 if IDF_TARGET_ESP32
+		default  14 if IDF_TARGET_ESP32
 		default 34 if IDF_TARGET_ESP32S2 || IDF_TARGET_ESP32S3
 		default  3 # C3 and others
 		help

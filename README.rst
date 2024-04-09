@@ -16,6 +16,12 @@ Compiling
 This code is an esp-idf project. You will need esp-idf to compile it. Newer versions of esp-idf may introduce incompatibilities with this code;
 for your reference, the code was tested against commit 12caaed28063e32d8b1fb13e13548b6fa52f87b3 of esp-idf.
 
+Flashing
+---------
+
+```
+esptool.py -p $(ls /dev/tty.usbserial*) --chip esp32 -b 460800 --before default_reset --after hard_reset write_flash --flash_mode dio --flash_size 4MB --flash_freq 40m 0x1000 bootloader.bin 0x8000 partition-table.bin 0x10000 ESP_NES.bin
+```
 
 Display
 -------
