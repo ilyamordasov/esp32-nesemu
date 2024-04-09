@@ -9,9 +9,6 @@
 #include "nofrendo.h"
 #include "esp_partition.h"
 
-#include "tinyusb.h"
-#include "tusb_msc_storage.h"
-
 #include <stdio.h>
 #include <inttypes.h>
 #include <string.h>
