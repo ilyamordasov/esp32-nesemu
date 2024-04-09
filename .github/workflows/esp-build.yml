@@ -18,7 +18,7 @@ jobs:
   build:
     defaults:
       run:
-        working-directory: 'esp32s3'
+        working-directory: 'esp32'
     strategy:
       fail-fast: false
       matrix:
