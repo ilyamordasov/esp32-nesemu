@@ -152,7 +152,7 @@ void w25qxx_listdir(void) {
     ESP_LOGI(TAG, "Check /roms dir");
     DIR dir;
     FILINFO fno;
-    FRESULT res = f_opendir(&dir, "/roms");
+    FRESULT res = f_opendir(&dir, "/");
     if (res == FR_OK) {
         ESP_LOGI(TAG, "FR_OK");
         while (true) {
