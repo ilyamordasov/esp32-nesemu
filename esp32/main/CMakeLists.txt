@@ -1,6 +1,6 @@
-set(priv_requires fatfs console)
+set(priv_requires driver fatfs console)
 
-list(APPEND priv_requires wear_levelling esp_partition spi_flash esp_event)
+list(APPEND priv_requires wear_levelling esp_partition spi_flash esp_event nvs_flash esp_partition)
 
 idf_component_register(
     SRCS
