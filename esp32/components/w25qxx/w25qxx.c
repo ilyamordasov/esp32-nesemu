@@ -44,7 +44,7 @@ void w25qxx_init(void)
     }
 
     // Add the entire external flash chip as a partition
-    const char *partition_label = "roms";
+    const char *partition_label = "storage";
     add_partition(flash, partition_label);
 
     // List the available partitions
@@ -156,7 +156,7 @@ void w25qxx_listdir(void) {
     ESP_LOGI(TAG, "Check /roms dir");
     DIR dir;
     FILINFO fno;
-    FRESULT res = f_opendir(&dir, "/roms/data");
+    FRESULT res = f_opendir(&dir, "/roms");
     if (res == FR_OK) {
         ESP_LOGI(TAG, "FR_OK");
         while (true) {
