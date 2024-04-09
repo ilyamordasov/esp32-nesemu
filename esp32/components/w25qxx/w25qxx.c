@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <dirent.h>
+#include <errno.h>
 #include <sys/types.h>
 #include "sdkconfig.h"
 #include "esp_flash.h"
@@ -182,26 +183,44 @@ static bool mount_fatfs(const char* partition_label)
 void w25qxx_listdir(void) {
     // Open directory
     ESP_LOGI(TAG, "Check /extflash dir");
-    DIR dir;
-    FILINFO fno;
-    FRESULT res = f_opendir(&dir, "/extflash");
-    if (res == FR_OK) {
-        ESP_LOGI(TAG, "FR_OK");
-        while (true) {
-            res = f_readdir(&dir, &fno);
-            if (res != FR_OK || fno.fname[0] == 0) {
-                break;  // No more files
-            }
-            if (fno.fattrib & AM_DIR) {
-                ESP_LOGI(TAG, "It's a directory");
-            } else {
-                // It's a file
-                printf("File: %s\n", fno.fname);
-            }
+
+    struct dirent *d;
+    DIR *dh = opendir("/extflash");
+    if (!dh) {
+        if (errno == ENOENT) {
+            //If the directory is not found
+            ESP_LOGE(TAG, "Directory doesn't exist %s", base_path);
+        } else {
+            //If the directory is not readable then throw error and exit
+            ESP_LOGE(TAG, "Unable to read directory %s", base_path);
         }
-        f_closedir(&dir);
+        return;
     }
-    else {
-        ESP_LOGE(TAG, "FR_NOT_OK - %d", res);
+    //While the next entry is not readable we will print directory files
+    while ((d = readdir(dh)) != NULL) {
+        printf("%s\n", d->d_name);
     }
+
+    // DIR dir;
+    // FILINFO fno;
+    // FRESULT res = f_opendir(&dir, "/extflash");
+    // if (res == FR_OK) {
+    //     ESP_LOGI(TAG, "FR_OK");
+    //     while (true) {
+    //         res = f_readdir(&dir, &fno);
+    //         if (res != FR_OK || fno.fname[0] == 0) {
+    //             break;  // No more files
+    //         }
+    //         if (fno.fattrib & AM_DIR) {
+    //             ESP_LOGI(TAG, "It's a directory");
+    //         } else {
+    //             // It's a file
+    //             printf("File: %s\n", fno.fname);
+    //         }
+    //     }
+    //     f_closedir(&dir);
+    // }
+    // else {
+    //     ESP_LOGE(TAG, "FR_NOT_OK - %d", res);
+    // }
 }
