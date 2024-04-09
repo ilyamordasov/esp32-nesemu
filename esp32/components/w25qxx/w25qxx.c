@@ -19,6 +19,7 @@
 #define PIN_NUM_CS    CONFIG_W25QXX_PIN_CS
 #define PIN_NUM_WS    CONFIG_W25QXX_PIN_HD
 #define PIN_NUM_HD    CONFIG_W25QXX_PIN_WS
+#define SPI_HOST      CONFIG_SPI_HOST
 
 static const char *TAG = "W25QXX";
 
@@ -37,7 +38,7 @@ static const esp_partition_t* add_partition(esp_flash_t* ext_flash, const char* 
 static void list_data_partitions(void);
 static bool mount_fatfs(const char* partition_label);
 
-void app_main(void)
+void w25qxx_init(void)
 {
     // Set up SPI bus and initialize the external SPI Flash chip
     esp_flash_t* flash = init_ext_flash();

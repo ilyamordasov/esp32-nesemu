@@ -53,7 +53,7 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
-          name: welcomer-${{ matrix.idf_target }}-${{ matrix.zb_ver }}
+          name: welcomer-${{ matrix.idf_target }}
           path: "${{ matrix.idf_target }}/*.bin"
 
   release:
