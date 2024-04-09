@@ -66,17 +66,17 @@ void app_main(void)
 static esp_flash_t* init_ext_flash(void)
 {
     const spi_bus_config_t bus_config = {
-        .mosi_io_num = MOSI_GPIO,
-        .miso_io_num = MISO_GPIO,
-        .sclk_io_num = SCLK_GPIO,
-        .quadhd_io_num = HD_GPIO,
-        .quadwp_io_num = WP_GPIO,
+        .mosi_io_num = PIN_NUM_MOSI,
+        .miso_io_num = PIN_NUM_MISO,
+        .sclk_io_num = PIN_NUM_CLK,
+        .quadhd_io_num = PIN_NUM_HD,
+        .quadwp_io_num = PIN_NUM_WS,
     };
 
     const esp_flash_spi_device_config_t device_config = {
         .host_id = SPI_HOST,
         .cs_id = 0,
-        .cs_io_num = CS_GPIO,
+        .cs_io_num = PIN_NUM_CS,
         .io_mode = SPI_FLASH_DIO,
         .freq_mhz = FLASH_FREQ_MHZ,
     };
