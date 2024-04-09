@@ -31,10 +31,10 @@
 // }
 
 
-esp_err_t event_handler(void *ctx, system_event_t *event)
-{
-    return ESP_OK;
-}
+// esp_err_t event_handler(void *ctx, system_event_t *event)
+// {
+//     return ESP_OK;
+// }
 
 
 int app_main(void)
