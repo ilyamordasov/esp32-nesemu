@@ -148,18 +148,28 @@ static bool mount_fatfs(const char* partition_label)
 }
 
 void w25qxx_listdir(void) {
-    DIR* dir = opendir("/roms");
-    if (dir == NULL) {
-        return;
-    }
-
-    while (true) {
-        struct dirent* de = readdir(dir);
-        if (!de) {
-            break;
+    // Open directory
+    ESP_LOGI(TAG, "Check /roms dir");
+    DIR dir;
+    FILINFO fno;
+    FRESULT res = f_opendir(&dir, "/roms");
+    if (res == FR_OK) {
+        ESP_LOGI(TAG, "FR_OK");
+        while (true) {
+            res = f_readdir(&dir, &fno);
+            if (res != FR_OK || fno.fname[0] == 0) {
+                break;  // No more files
+            }
+            if (fno.fattrib & AM_DIR) {
+                ESP_LOGI(TAG, "It's a directory");
+            } else {
+                // It's a file
+                printf("File: %s\n", fno.fname);
+            }
         }
-        printf("Found file: %s\n", de->d_name);
+        f_closedir(&dir);
     }
-
-    closedir(dir);
+    else {
+        ESP_LOGE(TAG, "FR_NOT_OK");
+    }
 }
