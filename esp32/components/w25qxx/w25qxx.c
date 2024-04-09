@@ -10,6 +10,8 @@
 #include "esp_system.h"
 #include "soc/spi_pins.h"
 
+#include "w25qxx.h"
+
 // h2 and c2 will not support external flash
 #define FLASH_FREQ_MHZ      40
 
