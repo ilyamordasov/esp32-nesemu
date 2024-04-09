@@ -60,7 +60,33 @@ void w25qxx_init(void)
     esp_vfs_fat_info(base_path, &bytes_total, &bytes_free);
     ESP_LOGI(TAG, "FAT FS: %" PRIu64 " kB total, %" PRIu64 " kB free", bytes_total / 1024, bytes_free / 1024);
 
-    w25qxx_listdir();
+    // Create a file in FAT FS
+    ESP_LOGI(TAG, "Opening file");
+    FILE *f = fopen("/extflash/hello.txt", "wb");
+    if (f == NULL) {
+        ESP_LOGE(TAG, "Failed to open file for writing");
+        return;
+    }
+    fprintf(f, "Written using ESP-IDF %s\n", esp_get_idf_version());
+    fclose(f);
+    ESP_LOGI(TAG, "File written");
+
+    // Open file for reading
+    ESP_LOGI(TAG, "Reading file");
+    f = fopen("/extflash/hello.txt", "rb");
+    if (f == NULL) {
+        ESP_LOGE(TAG, "Failed to open file for reading");
+        return;
+    }
+    char line[128];
+    fgets(line, sizeof(line), f);
+    fclose(f);
+    // strip newline
+    char *pos = strchr(line, '\n');
+    if (pos) {
+        *pos = '\0';
+    }
+    ESP_LOGI(TAG, "Read from file: '%s'", line);
 }
 
 static esp_flash_t* init_ext_flash(void)
