@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <dirent.h>
+#include <sys/types.h>
 #include "sdkconfig.h"
 #include "esp_flash.h"
 #include "esp_flash_spi_init.h"
@@ -200,6 +202,6 @@ void w25qxx_listdir(void) {
         f_closedir(&dir);
     }
     else {
-        ESP_LOGE(TAG, "FR_NOT_OK");
+        ESP_LOGE(TAG, "FR_NOT_OK - %d", res);
     }
 }
