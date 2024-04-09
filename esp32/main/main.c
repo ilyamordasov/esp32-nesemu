@@ -1,12 +1,24 @@
 #include "freertos/FreeRTOS.h"
-#include "esp_wifi.h"
+#include "freertos/task.h"
 #include "esp_system.h"
 #include "esp_event.h"
+#include "esp_log.h"
 #include "esp_event_loop.h"
 #include "nvs_flash.h"
 #include "driver/gpio.h"
 #include "nofrendo.h"
 #include "esp_partition.h"
+
+#include "tinyusb.h"
+#include "tusb_msc_storage.h"
+
+#include <stdio.h>
+#include <inttypes.h>
+#include <string.h>
+
+#include "w25qxx.h"
+
+#define TAG "NES"
 
 
 
@@ -30,12 +42,20 @@ esp_err_t event_handler(void *ctx, system_event_t *event)
     return ESP_OK;
 }
 
+void init_w25qxx()
+{
+	w25qxx_init();
+	void w25qxx_listdir();
+}
+
+
 int app_main(void)
 {
 	printf("NoFrendo start!\n");
-	nofrendo_main(0, NULL);
-	printf("NoFrendo died? WtF?\n");
-	asm("break.n 1");
+	init_w25qxx();
+	// nofrendo_main(0, NULL);
+	// printf("NoFrendo died? WtF?\n");
+	// asm("break.n 1");
     return 0;
 }
 
