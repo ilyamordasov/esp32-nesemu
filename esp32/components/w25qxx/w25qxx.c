@@ -11,7 +11,7 @@
 #include "soc/spi_pins.h"
 
 // h2 and c2 will not support external flash
-#define FLASH_FREQ_MHZ      40
+#define FLASH_FREQ_MHZ      20
 
 #define PIN_NUM_MISO  CONFIG_W25QXX_PIN_MISO
 #define PIN_NUM_MOSI  CONFIG_W25QXX_PIN_MOSI
@@ -19,13 +19,12 @@
 #define PIN_NUM_CS    CONFIG_W25QXX_PIN_CS
 #define PIN_NUM_WS    CONFIG_W25QXX_PIN_HD
 #define PIN_NUM_HD    CONFIG_W25QXX_PIN_WS
-#define SPI_HOST      CONFIG_SPI_HOST
 
 static const char *TAG = "W25QXX";
 
 // Pin mapping
 // ESP32 (VSPI)
-#define SPI_DMA_CHAN 1
+#define SPI_DMA_CHAN SPI_DMA_CH_AUTO
 
 // Handle of the wear levelling library instance
 static wl_handle_t s_wl_handle = WL_INVALID_HANDLE;
@@ -75,7 +74,7 @@ static esp_flash_t* init_ext_flash(void)
     };
 
     const esp_flash_spi_device_config_t device_config = {
-        .host_id = SPI_HOST,
+        .host_id = SPI2_HOST,
         .cs_id = 0,
         .cs_io_num = PIN_NUM_CS,
         .io_mode = SPI_FLASH_DIO,
@@ -91,7 +90,7 @@ static esp_flash_t* init_ext_flash(void)
 
     // Initialize the SPI bus
     ESP_LOGI(TAG, "DMA CHANNEL: %d", SPI_DMA_CHAN);
-    ESP_ERROR_CHECK(spi_bus_initialize(SPI_HOST, &bus_config, SPI_DMA_CHAN));
+    ESP_ERROR_CHECK(spi_bus_initialize(SPI2_HOST, &bus_config, SPI_DMA_CHAN));
 
     // Add device to the SPI bus
     esp_flash_t* ext_flash;
