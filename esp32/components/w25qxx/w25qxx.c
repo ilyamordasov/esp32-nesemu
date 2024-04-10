@@ -53,43 +53,43 @@ void w25qxx_init(void)
     // List the available partitions
     list_data_partitions();
 
-    // Initialize FAT FS in the partition
-    if (!mount_fatfs(partition_label)) {
-        return;
-    }
+    // // Initialize FAT FS in the partition
+    // if (!mount_fatfs(partition_label)) {
+    //     return;
+    // }
 
-    // Print FAT FS size information
-    uint64_t bytes_total, bytes_free;
-    esp_vfs_fat_info(base_path, &bytes_total, &bytes_free);
-    ESP_LOGI(TAG, "FAT FS: %" PRIu64 " kB total, %" PRIu64 " kB free", bytes_total / 1024, bytes_free / 1024);
+    // // Print FAT FS size information
+    // uint64_t bytes_total, bytes_free;
+    // esp_vfs_fat_info(base_path, &bytes_total, &bytes_free);
+    // ESP_LOGI(TAG, "FAT FS: %" PRIu64 " kB total, %" PRIu64 " kB free", bytes_total / 1024, bytes_free / 1024);
 
-    // Create a file in FAT FS
-    ESP_LOGI(TAG, "Opening file");
-    FILE *f = fopen("/nesgame/hello2.txt", "wb");
-    if (f == NULL) {
-        ESP_LOGE(TAG, "Failed to open file for writing");
-        return;
-    }
-    fprintf(f, "Written using ESP-IDF %s\n", esp_get_idf_version());
-    fclose(f);
-    ESP_LOGI(TAG, "File written");
+    // // Create a file in FAT FS
+    // ESP_LOGI(TAG, "Opening file");
+    // FILE *f = fopen("/nesgame/hello2.txt", "wb");
+    // if (f == NULL) {
+    //     ESP_LOGE(TAG, "Failed to open file for writing");
+    //     return;
+    // }
+    // fprintf(f, "Written using ESP-IDF %s\n", esp_get_idf_version());
+    // fclose(f);
+    // ESP_LOGI(TAG, "File written");
 
-    // Open file for reading
-    ESP_LOGI(TAG, "Reading file");
-    f = fopen("/nesgame/hello.txt", "rb");
-    if (f == NULL) {
-        ESP_LOGE(TAG, "Failed to open file for reading");
-        return;
-    }
-    char line[128];
-    fgets(line, sizeof(line), f);
-    fclose(f);
-    // strip newline
-    char *pos = strchr(line, '\n');
-    if (pos) {
-        *pos = '\0';
-    }
-    ESP_LOGI(TAG, "Read from file: '%s'", line);
+    // // Open file for reading
+    // ESP_LOGI(TAG, "Reading file");
+    // f = fopen("/nesgame/hello.txt", "rb");
+    // if (f == NULL) {
+    //     ESP_LOGE(TAG, "Failed to open file for reading");
+    //     return;
+    // }
+    // char line[128];
+    // fgets(line, sizeof(line), f);
+    // fclose(f);
+    // // strip newline
+    // char *pos = strchr(line, '\n');
+    // if (pos) {
+    //     *pos = '\0';
+    // }
+    // ESP_LOGI(TAG, "Read from file: '%s'", line);
 }
 
 static esp_flash_t* init_ext_flash(void)
@@ -148,8 +148,8 @@ static const esp_partition_t* add_partition(esp_flash_t* ext_flash, const char* 
     ESP_ERROR_CHECK(esp_partition_register_external(ext_flash, offset, ext_flash->size, partition_label, ESP_PARTITION_TYPE_DATA, ESP_PARTITION_SUBTYPE_DATA_FAT, &fat_partition));
 
     // Erase space of partition on the external flash chip
-    ESP_LOGI(TAG, "Erasing partition range, offset=%u size=%" PRIu32 " KB", offset, ext_flash->size / 1024);
-    ESP_ERROR_CHECK(esp_partition_erase_range(fat_partition, offset, ext_flash->size));
+    // ESP_LOGI(TAG, "Erasing partition range, offset=%u size=%" PRIu32 " KB", offset, ext_flash->size / 1024);
+    // ESP_ERROR_CHECK(esp_partition_erase_range(fat_partition, offset, ext_flash->size));
 
     return fat_partition;
 }

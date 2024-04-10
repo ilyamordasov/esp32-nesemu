@@ -45,9 +45,9 @@ int app_main(void)
 	ESP_LOGI(TAG, "NoFrendo start!\n");
 	
 	w25qxx_init();
-	w25qxx_listdir();
+	// w25qxx_listdir();
 
-	//msc_init();
+	msc_init();
 	w25qxx_listdir();
 
 	// nofrendo_main(0, NULL);
