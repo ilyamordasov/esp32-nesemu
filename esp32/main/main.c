@@ -40,6 +40,7 @@
 
 int app_main(void)
 {
+	vTaskDelay(5000 / portTICK_PERIOD_MS)
 	ESP_LOGI(TAG, "HELLO ESP32S2\n");
 	ESP_LOGI(TAG, "NoFrendo start!\n");
 	

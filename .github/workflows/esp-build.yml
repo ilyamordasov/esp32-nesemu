@@ -27,7 +27,7 @@ jobs:
         idf_target: ["esp32s2", "esp32s3"]
     defaults:
       run:
-        working-directory: ${{ matrix.idf_target }}
+        working-directory: "esp32"
     runs-on: ubuntu-latest
 
     steps:
@@ -41,7 +41,7 @@ jobs:
       with:
         esp_idf_version: ${{ matrix.idf_ver }}
         target: ${{ matrix.idf_target }}
-        path: '${{ matrix.idf_target }}'
+        path: 'esp32'
 
     - name: Rename artifact
       run: |
