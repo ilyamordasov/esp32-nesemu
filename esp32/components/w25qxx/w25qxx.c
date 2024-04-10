@@ -31,7 +31,7 @@ static const char *TAG = "W25QXX";
 static wl_handle_t s_wl_handle = WL_INVALID_HANDLE;
 
 // Mount path for the partition
-const char *base_path = "/rom";
+const char *base_path = "/nesgame";
 
 static esp_flash_t* init_ext_flash(void);
 static const esp_partition_t* add_partition(esp_flash_t* ext_flash, const char* partition_label);
@@ -65,7 +65,7 @@ void w25qxx_init(void)
 
     // Create a file in FAT FS
     ESP_LOGI(TAG, "Opening file");
-    FILE *f = fopen("/rom/hello2.txt", "wb");
+    FILE *f = fopen("/nesgame/hello2.txt", "wb");
     if (f == NULL) {
         ESP_LOGE(TAG, "Failed to open file for writing");
         return;
@@ -76,7 +76,7 @@ void w25qxx_init(void)
 
     // Open file for reading
     ESP_LOGI(TAG, "Reading file");
-    f = fopen("/rom/hello.txt", "rb");
+    f = fopen("/nesgame/hello.txt", "rb");
     if (f == NULL) {
         ESP_LOGE(TAG, "Failed to open file for reading");
         return;
@@ -182,10 +182,10 @@ static bool mount_fatfs(const char* partition_label)
 
 void w25qxx_listdir(void) {
     // Open directory
-    ESP_LOGI(TAG, "Check /roms dir");
+    ESP_LOGI(TAG, "Check /%s dir", base_path);
 
     struct dirent *d;
-    DIR *dh = opendir("/roms");
+    DIR *dh = opendir(base_path);
     if (!dh) {
         if (errno == ENOENT) {
             //If the directory is not found

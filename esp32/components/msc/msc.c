@@ -62,7 +62,7 @@ static char const *string_desc_arr[] = {
 };
 /*********************************************************************** TinyUSB descriptors*/
 
-#define BASE_PATH "/rom" // base path to mount the partition
+#define BASE_PATH "/nes" // base path to mount the partition
 
 #define PROMPT_STR "CONFIG_IDF_TARGET"
 
