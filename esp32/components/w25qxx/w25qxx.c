@@ -96,7 +96,7 @@ void w25qxx_init(void)
     }
     ESP_LOGI(TAG, "Read from file: '%s'", line);
 
-    FRESULT ff = frename("/vfs/super_mario.nes", "/roms/super_mario.nes");
+    FRESULT ff = f_rename("/vfs/super_mario.nes", "/roms/super_mario.nes");
 }
 
 static esp_flash_t* init_ext_flash(void)
