@@ -31,7 +31,7 @@ static const char *TAG = "W25QXX";
 static wl_handle_t s_wl_handle = WL_INVALID_HANDLE;
 
 // Mount path for the partition
-const char *base_path = "/roms";
+const char *base_path = "/rom";
 
 static esp_flash_t* init_ext_flash(void);
 static const esp_partition_t* add_partition(esp_flash_t* ext_flash, const char* partition_label);
@@ -48,7 +48,6 @@ void w25qxx_init(void)
 
     // Add the entire external flash chip as a partition
     const char *partition_label = "storage";
-    const char *partition_label2 = "vfs";
     add_partition(flash, partition_label);
 
     // List the available partitions
@@ -59,10 +58,6 @@ void w25qxx_init(void)
         return;
     }
 
-     if (!mount_fatfs(partition_label2)) {
-        return;
-    }
-
     // Print FAT FS size information
     uint64_t bytes_total, bytes_free;
     esp_vfs_fat_info(base_path, &bytes_total, &bytes_free);
@@ -70,7 +65,7 @@ void w25qxx_init(void)
 
     // Create a file in FAT FS
     ESP_LOGI(TAG, "Opening file");
-    FILE *f = fopen("/roms/hello.txt", "wb");
+    FILE *f = fopen("/rom/hello2.txt", "wb");
     if (f == NULL) {
         ESP_LOGE(TAG, "Failed to open file for writing");
         return;
@@ -81,7 +76,7 @@ void w25qxx_init(void)
 
     // Open file for reading
     ESP_LOGI(TAG, "Reading file");
-    f = fopen("/roms/hello.txt", "rb");
+    f = fopen("/rom/hello.txt", "rb");
     if (f == NULL) {
         ESP_LOGE(TAG, "Failed to open file for reading");
         return;
@@ -95,8 +90,6 @@ void w25qxx_init(void)
         *pos = '\0';
     }
     ESP_LOGI(TAG, "Read from file: '%s'", line);
-
-    FRESULT ff = f_rename("/vfs/super_mario.nes", "/roms/super_mario.nes");
 }
 
 static esp_flash_t* init_ext_flash(void)
@@ -151,7 +144,7 @@ static const esp_partition_t* add_partition(esp_flash_t* ext_flash, const char* 
 {
     ESP_LOGI(TAG, "Adding external Flash as a partition, label=\"%s\", size=%" PRIu32 " KB", partition_label, ext_flash->size / 1024);
     const esp_partition_t* fat_partition;
-    const size_t offset = 0;
+    const size_t offset = 0x101000;
     ESP_ERROR_CHECK(esp_partition_register_external(ext_flash, offset, ext_flash->size, partition_label, ESP_PARTITION_TYPE_DATA, ESP_PARTITION_SUBTYPE_DATA_FAT, &fat_partition));
 
     return fat_partition;
