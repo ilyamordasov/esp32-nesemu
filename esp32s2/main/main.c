@@ -46,6 +46,7 @@ int app_main(void)
 	w25qxx_listdir();
 
 	msc_init();
+	w25qxx_listdir();
 
 	// nofrendo_main(0, NULL);
 	// ESP_LOGI(TAG, "NoFrendo died? WtF?\n");
