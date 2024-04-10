@@ -22,7 +22,7 @@
 #define PIN_NUM_MOSI    CONFIG_W25QXX_PIN_MOSI
 #define PIN_NUM_CLK     CONFIG_W25QXX_PIN_CLK
 #define PIN_NUM_CS      CONFIG_W25QXX_PIN_CS
-#define HOST_ID         SPI2_HOST
+#define HOST_ID         SPI_HOST
 #define SPI_DMA_CHAN    SPI_DMA_CH_AUTO
 
 static const char *TAG = "W25QXX";
