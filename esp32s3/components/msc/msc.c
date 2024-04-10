@@ -64,7 +64,7 @@ static char const *string_desc_arr[] = {
 
 #define BASE_PATH "/rom" // base path to mount the partition
 
-#define PROMPT_STR CONFIG_IDF_TARGET
+#define PROMPT_STR "CONFIG_IDF_TARGET"
 
 // mount the partition and show all the files in BASE_PATH
 static void _mount(void)
