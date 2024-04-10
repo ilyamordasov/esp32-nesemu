@@ -49,7 +49,7 @@ menu "W25QXX Configuration"
 		int "CS GPIO number"
 		range 0 GPIO_RANGE_MAX
 		default  14 if IDF_TARGET_ESP32
-		default 34 if IDF_TARGET_ESP32S2 || IDF_TARGET_ESP32S3
+		default 38 if IDF_TARGET_ESP32S2 || IDF_TARGET_ESP32S3
 		default  3 # C3 and others
 		help
 			GPIO number (IOxx) to SPI CS.
