@@ -13,6 +13,7 @@
 #include <string.h>
 
 #include "w25qxx.h"
+#include "msc.h"
 
 #define TAG "NES"
 
@@ -43,6 +44,8 @@ int app_main(void)
 	
 	w25qxx_init();
 	w25qxx_listdir();
+
+	msc_init();
 
 	// nofrendo_main(0, NULL);
 	// ESP_LOGI(TAG, "NoFrendo died? WtF?\n");

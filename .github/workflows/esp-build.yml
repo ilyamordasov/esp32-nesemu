@@ -27,7 +27,7 @@ jobs:
         # https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/tools/idf-docker-image.html
         # for details.
         idf_ver: ["release-v5.2"]
-        idf_target: ["esp32"]
+        idf_target: ["esp32s2"]
     runs-on: ubuntu-latest
 
     steps:
