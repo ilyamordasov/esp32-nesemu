@@ -54,7 +54,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
           name: nes-${{ matrix.idf_target }}
-          path: "${{ matrix.idf_target }}/*.bin"
+          path: "esp32/*.bin"
 
   release:
     needs: build
