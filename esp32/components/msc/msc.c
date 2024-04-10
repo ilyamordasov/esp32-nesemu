@@ -7,6 +7,8 @@
 #include "tinyusb.h"
 #include "tusb_msc_storage.h"
 
+#include "msc.h"
+
 static const char *TAG = "MSC";
 
 /* TinyUSB descriptors
