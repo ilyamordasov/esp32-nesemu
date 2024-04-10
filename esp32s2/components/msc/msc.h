@@ -3,4 +3,4 @@
 
 void msc_init(void);
 
-#endif /* MAIN_W25QXX_H_ */
+#endif /* MAIN_MSC_H_ */

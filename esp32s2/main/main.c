@@ -14,6 +14,7 @@
 
 #include "w25qxx.h"
 #include "msc.h"
+#include "serial.h"
 
 #define TAG "NES"
 
@@ -40,6 +41,8 @@
 
 int app_main(void)
 {
+	serial_init();
+	
 	ESP_LOGI(TAG, "NoFrendo start!\n");
 	
 	w25qxx_init();
