@@ -40,6 +40,7 @@
 
 int app_main(void)
 {
+	ESP_LOGI(TAG, "HELLO ESP32S2\n");
 	ESP_LOGI(TAG, "NoFrendo start!\n");
 	
 	w25qxx_init();
