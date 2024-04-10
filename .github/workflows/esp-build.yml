@@ -16,9 +16,6 @@ env:
 
 jobs:
   build:
-    defaults:
-      run:
-        working-directory: 'esp32s2'
     strategy:
       fail-fast: false
       matrix:
@@ -28,6 +25,9 @@ jobs:
         # for details.
         idf_ver: ["release-v5.2"]
         idf_target: ["esp32s2", "esp32s3"]
+    defaults:
+      run:
+        working-directory: ${{ matrix.idf_target }}
     runs-on: ubuntu-latest
 
     steps:
