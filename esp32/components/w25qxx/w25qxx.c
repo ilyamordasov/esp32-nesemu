@@ -47,8 +47,8 @@ void w25qxx_init(void)
     }
 
     // Add the entire external flash chip as a partition
-    const char *partition_label = "storage";
-    add_partition(flash, partition_label);
+    const char *partition_label = "vfs";
+    // add_partition(flash, partition_label);
 
     // List the available partitions
     list_data_partitions();
