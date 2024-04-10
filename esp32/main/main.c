@@ -43,11 +43,10 @@ int app_main(void)
 	// vTaskDelay(5000 / portTICK_PERIOD_MS);
 	ESP_LOGI(TAG, "HELLO ESP32S2\n");
 	ESP_LOGI(TAG, "NoFrendo start!\n");
-	
-	w25qxx_init();
-	// w25qxx_listdir();
 
 	msc_init();
+	
+	w25qxx_init();
 	w25qxx_listdir();
 
 	// nofrendo_main(0, NULL);
