@@ -48,6 +48,7 @@ void w25qxx_init(void)
 
     // Add the entire external flash chip as a partition
     const char *partition_label = "storage";
+    const char *partition_label2 = "vfs";
     add_partition(flash, partition_label);
 
     // List the available partitions
@@ -55,6 +56,10 @@ void w25qxx_init(void)
 
     // Initialize FAT FS in the partition
     if (!mount_fatfs(partition_label)) {
+        return;
+    }
+
+     if (!mount_fatfs(partition_label2)) {
         return;
     }
 
@@ -90,6 +95,8 @@ void w25qxx_init(void)
         *pos = '\0';
     }
     ESP_LOGI(TAG, "Read from file: '%s'", line);
+
+    FRESULT ff = frename("/vfs/super_mario.nes", "/roms/super_mario.nes");
 }
 
 static esp_flash_t* init_ext_flash(void)
