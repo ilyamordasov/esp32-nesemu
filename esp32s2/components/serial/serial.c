@@ -20,7 +20,7 @@ static const int RX_BUF_SIZE = 1024;
 #define TXD_PIN (GPIO_NUM_9)
 #define RXD_PIN (GPIO_NUM_8)
 
-#define UART UART_NUM_2
+#define UART UART_NUM_1
 
 int num = 0;
 
@@ -59,7 +59,7 @@ static void tx_task(void *arg)
 
 static void rx_task(void *arg)
 {
-    esp_log_level_set(RX_TASK_TAG, ESP_LOG_INFO);
+    esp_log_level_set(TAG, ESP_LOG_INFO);
     uint8_t* data = (uint8_t*) malloc(RX_BUF_SIZE+1);
     while (1) {
         const int rxBytes = uart_read_bytes(UART, data, RX_BUF_SIZE, 500 / portTICK_RATE_MS);
