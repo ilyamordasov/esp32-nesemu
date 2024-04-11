@@ -103,7 +103,7 @@ static esp_err_t storage_init_spiflash(wl_handle_t *wl_handle)
 {
     ESP_LOGI(TAG, "Initializing W25QXX...");
     esp_flash_t* flash = init_ext_flash();
-    if (flash == NULL) { return; }
+    if (flash == NULL) { return ESP_ERR_NOT_FOUND; }
     const esp_partition_t *data_partition = add_partition(flash, PART_LABEL);
     if (data_partition == NULL) {
         ESP_LOGE(TAG, "Failed to find FATFS partition. Check the partition table.");
