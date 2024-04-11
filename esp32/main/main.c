@@ -6,13 +6,11 @@
 // #include "nvs_flash.h"
 // #include "driver/gpio.h"
 // #include "nofrendo.h"
-// #include "esp_partition.h"
 
 #include <stdio.h>
 #include <inttypes.h>
 #include <string.h>
 
-#include "w25qxx.h"
 #include "msc.h"
 
 #define TAG "NES"
@@ -40,14 +38,9 @@
 
 int app_main(void)
 {
-	// vTaskDelay(5000 / portTICK_PERIOD_MS);
-	ESP_LOGI(TAG, "HELLO ESP32S2\n");
 	ESP_LOGI(TAG, "NoFrendo start!\n");
 
 	msc_init();
-	
-	w25qxx_init();
-	w25qxx_listdir();
 
 	// nofrendo_main(0, NULL);
 	// ESP_LOGI(TAG, "NoFrendo died? WtF?\n");

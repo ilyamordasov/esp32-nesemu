@@ -6,6 +6,7 @@
 #include "tinyusb.h"
 #include "tusb_msc_storage.h"
 
+#include "w25qxx.h"
 #include "msc.h"
 
 static const char *TAG = "MSC";
@@ -62,9 +63,7 @@ static char const *string_desc_arr[] = {
 };
 /*********************************************************************** TinyUSB descriptors*/
 
-#define BASE_PATH "/nes" // base path to mount the partition
-
-#define PROMPT_STR "CONFIG_IDF_TARGET"
+#define BASE_PATH "/nesgames" // base path to mount the partition
 
 // mount the partition and show all the files in BASE_PATH
 static void _mount(void)
@@ -114,6 +113,9 @@ static esp_err_t storage_init_spiflash(wl_handle_t *wl_handle)
 
 void msc_init(void)
 {
+    ESP_LOGI(TAG, "Initializing W25QXX...");
+    w25qxx_init();
+
     ESP_LOGI(TAG, "Initializing storage...");
 
     static wl_handle_t wl_handle = WL_INVALID_HANDLE;
@@ -140,4 +142,6 @@ void msc_init(void)
     };
     ESP_ERROR_CHECK(tinyusb_driver_install(&tusb_cfg));
     ESP_LOGI(TAG, "USB MSC initialization DONE");
+
+    w25qxx_listdir(BASE_PATH);
 }
