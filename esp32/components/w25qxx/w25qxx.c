@@ -29,21 +29,21 @@ static const char *TAG = "W25QXX";
 
 void w25qxx_init(void)
 {
-    // Set up SPI bus and initialize the external SPI Flash chip
-    esp_flash_t* flash = init_ext_flash();
-    if (flash == NULL) {
-        return;
-    }
+    // // Set up SPI bus and initialize the external SPI Flash chip
+    // esp_flash_t* flash = init_ext_flash();
+    // if (flash == NULL) {
+    //     return;
+    // }
 
-    // Add the entire external flash chip as a partition
-    const char *partition_label = "storage";
-    add_partition(flash, partition_label);
+    // // Add the entire external flash chip as a partition
+    // const char *partition_label = "storage";
+    // add_partition(flash, partition_label);
 
-    // List the available partitions
-    list_data_partitions();
+    // // List the available partitions
+    // list_data_partitions();
 }
 
-static esp_flash_t* init_ext_flash(void)
+esp_flash_t* init_ext_flash(void)
 {
     const spi_bus_config_t bus_config = {
         .mosi_io_num = PIN_NUM_MOSI,
@@ -91,7 +91,7 @@ static esp_flash_t* init_ext_flash(void)
     return ext_flash;
 }
 
-static const esp_partition_t* add_partition(esp_flash_t* ext_flash, const char* partition_label)
+esp_partition_t* add_partition(esp_flash_t* ext_flash, const char* partition_label)
 {
     ESP_LOGI(TAG, "Adding external Flash as a partition, label=\"%s\", size=%" PRIu32 " KB", partition_label, ext_flash->size / 1024);
     const esp_partition_t* fat_partition;
@@ -101,7 +101,7 @@ static const esp_partition_t* add_partition(esp_flash_t* ext_flash, const char* 
     return fat_partition;
 }
 
-static void list_data_partitions(void)
+void list_data_partitions(void)
 {
     ESP_LOGI(TAG, "Listing data partitions:");
     esp_partition_iterator_t it = esp_partition_find(ESP_PARTITION_TYPE_DATA, ESP_PARTITION_SUBTYPE_ANY, NULL);
