@@ -27,10 +27,6 @@
 
 static const char *TAG = "W25QXX";
 
-static esp_flash_t* init_ext_flash(void);
-static const esp_partition_t* add_partition(esp_flash_t* ext_flash, const char* partition_label);
-static void list_data_partitions(void);
-
 void w25qxx_init(void)
 {
     // Set up SPI bus and initialize the external SPI Flash chip

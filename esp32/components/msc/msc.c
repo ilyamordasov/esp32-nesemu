@@ -64,6 +64,7 @@ static char const *string_desc_arr[] = {
 /*********************************************************************** TinyUSB descriptors*/
 
 #define BASE_PATH "/nesgames" // base path to mount the partition
+#define PART_LABEL "storage"
 
 // mount the partition and show all the files in BASE_PATH
 static void _mount(void)
@@ -100,22 +101,24 @@ static void storage_mount_changed_cb(tinyusb_msc_event_t *event)
 
 static esp_err_t storage_init_spiflash(wl_handle_t *wl_handle)
 {
-    ESP_LOGI(TAG, "Initializing wear levelling");
-
-    const esp_partition_t *data_partition = esp_partition_find_first(ESP_PARTITION_TYPE_DATA, ESP_PARTITION_SUBTYPE_DATA_FAT, NULL);
+    ESP_LOGI(TAG, "Initializing W25QXX...");
+    esp_flash_t* flash = init_ext_flash();
+    if (flash == NULL) { return; }
+    const esp_partition_t *data_partition = add_partition(flash, PART_LABEL);
     if (data_partition == NULL) {
         ESP_LOGE(TAG, "Failed to find FATFS partition. Check the partition table.");
         return ESP_ERR_NOT_FOUND;
     }
+    list_data_partitions();
+
+    // ESP_LOGI(TAG, "Initializing wear levelling");
+    // const esp_partition_t *data_partition = esp_partition_find(ESP_PARTITION_TYPE_DATA, ESP_PARTITION_SUBTYPE_DATA_FAT, NULL);
 
     return wl_mount(data_partition, wl_handle);
 }
 
 void msc_init(void)
 {
-    ESP_LOGI(TAG, "Initializing W25QXX...");
-    w25qxx_init();
-
     ESP_LOGI(TAG, "Initializing storage...");
 
     static wl_handle_t wl_handle = WL_INVALID_HANDLE;
