@@ -21,15 +21,15 @@ Flashing
 
 .. code-block:: esp32
 
-    esptool.py -p $(ls /dev/tty.usbserial*) --chip esp32 -b 460800 --before default_reset --after hard_reset write_flash --flash_mode dio --flash_size 4MB --flash_freq 40m 0x1000 bootloader.bin 0x8000 partition-table.bin 0x10000 firmware.bin
+    esptool.py -p $(ls /dev/tty.usbserial*) --chip esp32 -b 460800 --before default_reset --after hard_reset write_flash --flash_mode dio --flash_size detect --flash_freq 40m 0x1000 bootloader.bin 0x8000 partition-table.bin 0x10000 firmware.bin
 
 .. code-block:: esp32s2
 
-    esptool.py -p $(ls /dev/tty.usbmodem*) --chip esp32s2 -b 460800 --before default_reset --after no_reset write_flash --flash_mode dio --flash_size 4MB --flash_freq 40m 0x1000 bootloader.bin 0x8000 partition-table.bin 0x10000 firmware.bin
+    esptool.py -p $(ls /dev/tty.usbmodem*) --chip esp32s2 -b 460800 --before default_reset --after no_reset write_flash --flash_mode dio --flash_size detect --flash_freq 40m 0x1000 bootloader.bin 0x8000 partition-table.bin 0x10000 firmware.bin
 
 .. code-block:: esp32s3
 
-    esptool.py $(ls /dev/tty.usbmodem*) --chip esp32s3 -b 460800 --before default_reset --after hard_reset write_flash --flash_mode dio --flash_size 4MB --flash_freq 40m 0x0 bootloader.bin 0x8000 partition-table.bin 0x10000 firmware.bin
+    esptool.py $(ls /dev/tty.usbmodem*) --chip esp32s3 -b 460800 --before default_reset --after hard_reset write_flash --flash_mode dio --flash_size detect --flash_freq 40m 0x0 bootloader.bin 0x8000 partition-table.bin 0x10000 firmware.bin
 
 Display
 -------
