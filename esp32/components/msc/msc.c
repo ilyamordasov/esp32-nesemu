@@ -113,8 +113,8 @@ static esp_err_t storage_init_spiflash(wl_handle_t *wl_handle)
 
 void msc_init(void)
 {
-    // ESP_LOGI(TAG, "Initializing W25QXX...");
-    // w25qxx_init();
+    ESP_LOGI(TAG, "Initializing W25QXX...");
+    w25qxx_init();
 
     ESP_LOGI(TAG, "Initializing storage...");
 
@@ -143,5 +143,5 @@ void msc_init(void)
     ESP_ERROR_CHECK(tinyusb_driver_install(&tusb_cfg));
     ESP_LOGI(TAG, "USB MSC initialization DONE");
 
-    // w25qxx_listdir(BASE_PATH);
+    w25qxx_listdir(BASE_PATH);
 }
