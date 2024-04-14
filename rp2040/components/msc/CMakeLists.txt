@@ -5,9 +5,12 @@ target_sources(msc INTERFACE
     ${CMAKE_SOURCE_DIR}/components/msc/msc.c
 )
 
-target_include_directories(mcs PUBLIC ${CMAKE_CURRENT_LIST_DIR})
+target_include_directories(msc PUBLIC
+    ${CMAKE_SOURCE_DIR}/components/w25qxx
+    ${CMAKE_SOURCE_DIR}/components/msc
+)
 
-target_link_libraries(msc w25qxx INTERFACE
+target_link_libraries(msc INTERFACE
         hardware_spi
         hardware_dma
         hardware_rtc
