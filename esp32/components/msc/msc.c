@@ -101,18 +101,15 @@ static void storage_mount_changed_cb(tinyusb_msc_event_t *event)
 
 static esp_err_t storage_init_spiflash(wl_handle_t *wl_handle)
 {
-    ESP_LOGI(TAG, "Initializing W25QXX...");
-    esp_flash_t* flash = init_ext_flash();
-    if (flash == NULL) { return ESP_ERR_NOT_FOUND; }
-    const esp_partition_t *data_partition = add_partition(flash, PART_LABEL);
+    // ESP_LOGI(TAG, "Initializing W25QXX...");
+    // w25qxx_init();
+    ESP_LOGI(TAG, "Initializing wear levelling");
+
+    const esp_partition_t *data_partition = esp_partition_find(ESP_PARTITION_TYPE_DATA, ESP_PARTITION_SUBTYPE_DATA_FAT, NULL);
     if (data_partition == NULL) {
         ESP_LOGE(TAG, "Failed to find FATFS partition. Check the partition table.");
         return ESP_ERR_NOT_FOUND;
     }
-    list_data_partitions();
-
-    // ESP_LOGI(TAG, "Initializing wear levelling");
-    // const esp_partition_t *data_partition = esp_partition_find(ESP_PARTITION_TYPE_DATA, ESP_PARTITION_SUBTYPE_DATA_FAT, NULL);
 
     return wl_mount(data_partition, wl_handle);
 }

@@ -12,6 +12,7 @@
 #include <string.h>
 
 #include "msc.h"
+#include "ili9341.h"
 
 #define TAG "NES"
 
@@ -41,6 +42,7 @@ int app_main(void)
 	ESP_LOGI(TAG, "NoFrendo start!\n");
 
 	msc_init();
+	ili9341_init();
 
 	// nofrendo_main(0, NULL);
 	// ESP_LOGI(TAG, "NoFrendo died? WtF?\n");
