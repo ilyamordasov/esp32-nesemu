@@ -1,4 +1,4 @@
-name: Build and Publish ESP32 Application
+name: Build and Publish RP2040 Application
 on:
   push:
     tags:
@@ -23,18 +23,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Clean workspace
-      run: |
-        echo "Cleaning up previous run"
-        rm -rf "${{ github.workspace }}"
-        mkdir -p "${{ github.workspace }}"
-    - name: Checkout pico-examples
-      uses: actions/checkout@v2
-      with:
-        path: pico-examples
+    - name: Checkout repo
+      uses: actions/checkout@v4
 
     - name: Checkout pico-sdk/develop
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         repository: raspberrypi/pico-sdk
         ref: develop
