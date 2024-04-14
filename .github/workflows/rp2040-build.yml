@@ -68,7 +68,7 @@ jobs:
       shell: bash
       # Execute the build.  You can specify a specific target with "--target <NAME>"
       run: |
-        cmake --build ${{github.workspace}}/${{matrix.target}} --config $BUILD_TYPE --parallel $(nproc)
+        cmake --build ${{github.workspace}}/${{matrix.target}}/main/build --config $BUILD_TYPE --parallel $(nproc)
 
   #   - name: Upload
   #     uses: actions/upload-artifact@v4
