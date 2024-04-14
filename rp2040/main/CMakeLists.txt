@@ -36,7 +36,6 @@ target_include_directories(pico_usb_msc_device PRIVATE
   ${CMAKE_CURRENT_LIST_DIR}/.. # for our common lwipopts or any other standard includes, if required
 )
 
-add_subdirectory(../components/msc)
 # Add any user requested libraries
 target_link_libraries(pico_usb_msc_device 
         tinyusb_device 
