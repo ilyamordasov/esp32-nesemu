@@ -6,7 +6,7 @@
 #include "bsp/board.h"
 #include "tusb.h"
 
-#include "components/msc/msc.h"
+#include "msc.h"
 
 
 /*------------- MAIN -------------*/

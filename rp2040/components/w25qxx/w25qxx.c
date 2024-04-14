@@ -1,7 +1,7 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "w25qxx.h"
-#include "../msc/msc.h"
+#include "msc.h"
 
 uint8_t rxbuf[10];
 uint8_t txbuf[10];

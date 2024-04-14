@@ -11,36 +11,33 @@ if (PICO_SDK_VERSION_STRING VERSION_LESS "1.4.0")
   message(FATAL_ERROR "Raspberry Pi Pico SDK version 1.4.0 (or later) required. Your version is ${PICO_SDK_VERSION_STRING}")
 endif()
 
-project(pico_usb_msc_device C CXX ASM)
+project(rp2040_nesemu C CXX ASM)
 
-# Initialise the Raspberry Pi Pico SDK
-pico_sdk_init()
-
-add_executable(pico_usb_msc_device 
+add_executable(rp2040_nesemu 
       main.c
       usb_descriptors.c )
 
-pico_set_program_name(pico_usb_msc_device "pico_usb_msc_device")
-pico_set_program_version(pico_usb_msc_device "0.1")
+pico_set_program_name(rp2040_nesemu "rp2040_nesemu")
+pico_set_program_version(rp2040_nesemu "0.1")
 
-pico_enable_stdio_uart(pico_usb_msc_device 1)
-pico_enable_stdio_usb(pico_usb_msc_device 0)
+pico_enable_stdio_uart(rp2040_nesemu 1)
+pico_enable_stdio_usb(rp2040_nesemu 0)
 
 # Add the standard library to the build
-target_link_libraries(pico_usb_msc_device
+target_link_libraries(rp2040_nesemu
         pico_stdlib w25qxx msc)
 
 # Add the standard include files to the build
-target_include_directories(pico_usb_msc_device PRIVATE
+target_include_directories(rp2040_nesemu PRIVATE
   ${CMAKE_CURRENT_LIST_DIR}
   ${CMAKE_CURRENT_LIST_DIR}/.. # for our common lwipopts or any other standard includes, if required
 )
 
 # Add any user requested libraries
-target_link_libraries(pico_usb_msc_device 
+target_link_libraries(rp2040_nesemu 
         tinyusb_device 
         tinyusb_board
-        storage_driver
+        msc
         )
 
-pico_add_extra_outputs(pico_usb_msc_device)
+pico_add_extra_outputs(rp2040_nesemu)

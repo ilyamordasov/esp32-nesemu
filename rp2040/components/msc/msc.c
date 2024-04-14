@@ -1,7 +1,7 @@
 #include "bsp/board.h"
 #include "tusb.h"
 
-#include "../w25qxx/w25qxx.h"
+#include "w25qxx.h"
 #include "hardware/gpio.h"
 #include "msc.h"
 
