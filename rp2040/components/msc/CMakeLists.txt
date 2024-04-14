@@ -11,8 +11,10 @@ target_include_directories(msc PUBLIC
 )
 
 target_link_libraries(msc INTERFACE
+        w25qxx
         hardware_spi
         hardware_dma
         hardware_rtc
+        tinyusb_board
         pico_stdlib
 )
