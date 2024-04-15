@@ -70,17 +70,18 @@ jobs:
       run: |
         cmake --build ${{github.workspace}}/${{matrix.target}}/main/build --config $BUILD_TYPE --parallel $(nproc)
 
-  #   - name: Upload
-  #     uses: actions/upload-artifact@v4
-  #     with:
-  #         name: nes-${{ matrix.target }}
-  #         path: "esp32/*.bin"
+    - name: Upload
+      uses: actions/upload-artifact@v4
+      working-directory: ${{github.workspace}}/${{ matrix.target }}/main/build
+      with:
+          name: nes-${{ matrix.target }}
+          path: "main/*.uf2"
 
-  # release:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Download Firmware Files
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         path: build
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Firmware Files
+        uses: actions/download-artifact@v4
+        with:
+          path: build
