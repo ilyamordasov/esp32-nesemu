@@ -40,8 +40,4 @@ target_include_directories(rp2040_nesemu PRIVATE
   ${CMAKE_CURRENT_LIST_DIR}/.. # for our common lwipopts or any other standard includes, if required
 )
 
-add_subdirectory(../components)
-add_subdirectory(../components/msc)
-add_subdirectory(../components/w25qxx)
-
 pico_add_extra_outputs(rp2040_nesemu)
