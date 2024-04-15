@@ -36,6 +36,8 @@ target_link_libraries(rp2040_nesemu PUBLIC
 target_include_directories(rp2040_nesemu PRIVATE
   ${CMAKE_CURRENT_LIST_DIR}
   ${CMAKE_CURRENT_LIST_DIR}/.. # for our common lwipopts or any other standard includes, if required
+  $ENV{PICO_SDK_PATH}/lib/tinyusb/hw
+  $ENV{PICO_SDK_PATH}/lib/tinyusb/src
 )
 
 pico_add_extra_outputs(rp2040_nesemu)
