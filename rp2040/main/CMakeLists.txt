@@ -33,9 +33,10 @@ target_link_libraries(rp2040_nesemu PUBLIC
 )
 
 # Add the standard include files to the build
-target_include_directories(rp2040_nesemu PRIVATE
+target_include_directories(rp2040_nesemu PUBLIC
   ${CMAKE_CURRENT_LIST_DIR}
-  ${CMAKE_CURRENT_LIST_DIR}/.. # for our common lwipopts or any other standard includes, if required
+  ${CMAKE_CURRENT_LIST_DIR}/..  
+  ${CMAKE_CURRENT_LIST_DIR}/main # for our common lwipopts or any other standard includes, if required
   $ENV{PICO_SDK_PATH}/lib/tinyusb/hw
   $ENV{PICO_SDK_PATH}/lib/tinyusb/src
 )
