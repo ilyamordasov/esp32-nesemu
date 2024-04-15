@@ -3,4 +3,4 @@ esp32/build/
 .vscode/
 esp32/sdkconfig.old
 *.nes
-
+rp2040/main/build

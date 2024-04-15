@@ -7,11 +7,12 @@ target_sources(msc INTERFACE
 
 target_include_directories(msc PUBLIC ${CMAKE_CURRENT_LIST_DIR}/main)
 
-target_link_libraries(msc INTERFACE
+target_link_libraries(msc PUBLIC
+        tinyusb_device
+        tinyusb_board
+        pico_stdlib
         w25qxx
         hardware_spi
         hardware_dma
         hardware_rtc
-        tinyusb_board
-        pico_stdlib
 )
