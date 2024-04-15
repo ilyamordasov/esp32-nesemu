@@ -24,11 +24,15 @@ pico_enable_stdio_uart(rp2040_nesemu 1)
 pico_enable_stdio_usb(rp2040_nesemu 0)
 
 # Add the standard library to the build
-target_link_libraries(rp2040_nesemu
+target_link_libraries(rp2040_nesemu PUBLIC
         pico_stdlib
+        tinyusb_device 
+        tinyusb_board
         w25qxx
         msc
 )
+
+target_link_libraries(components PUBLIC pico_stdlib)
 
 # Add the standard include files to the build
 target_include_directories(rp2040_nesemu PRIVATE
@@ -36,11 +40,8 @@ target_include_directories(rp2040_nesemu PRIVATE
   ${CMAKE_CURRENT_LIST_DIR}/.. # for our common lwipopts or any other standard includes, if required
 )
 
-# Add any user requested libraries
-target_link_libraries(rp2040_nesemu 
-        tinyusb_device 
-        tinyusb_board
-        msc
-        )
+add_subdirectory(../components)
+add_subdirectory(../components/msc)
+add_subdirectory(../components/w25qxx)
 
 pico_add_extra_outputs(rp2040_nesemu)
