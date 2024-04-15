@@ -6,5 +6,3 @@ pico_sdk_init()
 
 add_subdirectory(main)
 add_subdirectory(components)
-add_subdirectory(components/msc)
-add_subdirectory(components/w25qxx)
