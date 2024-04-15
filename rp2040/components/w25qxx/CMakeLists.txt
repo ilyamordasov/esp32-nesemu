@@ -5,6 +5,7 @@ add_library(w25qxx
 target_include_directories(w25qxx PUBLIC ${CMAKE_CURRENT_LIST_DIR}/main)
 
 target_link_libraries(w25qxx PUBLIC
+        msc
         pico_stdlib
         tinyusb_board
         hardware_spi
