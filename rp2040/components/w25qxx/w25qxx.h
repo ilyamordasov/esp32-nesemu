@@ -8,10 +8,10 @@
 
 /* W25Q SPI pins*/
 #define W25Q_SPI_PORT spi0
-#define W25Q_PIN_MISO 16
-#define W25Q_PIN_SCK  18
-#define W25Q_PIN_MOSI 19
-#define W25Q_PIN_CS 17
+#define W25Q_PIN_MISO 4
+#define W25Q_PIN_SCK  2
+#define W25Q_PIN_MOSI 3
+#define W25Q_PIN_CS 5
 /* ====================== */
 
 typedef struct{
