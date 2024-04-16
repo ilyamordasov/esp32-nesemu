@@ -30,7 +30,6 @@ target_link_libraries(rp2040_nesemu PUBLIC
         tinyusb_board
         w25qxx
         msc
-        lvgl
         ili9341
 )
 
