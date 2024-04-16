@@ -1,6 +1,8 @@
 name: Build and Publish RP2040 Application
 on:
   push:
+    paths:
+      - rp2040/**
     tags:
       - "*"
     branches: [ "master" ]
@@ -12,35 +14,6 @@ env:
   BUILD_TYPE: Release
 
 jobs:
-  check:
-    name: Check files
-    outputs:
-      run_job: ${{ steps.check_files.outputs.run_job }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 2
-    - name: check modified files
-      id: check_files
-      run: |
-        echo "=============== list modified files ==============="
-        git diff --name-only HEAD^ HEAD
-        
-        echo "========== check paths of modified files =========="
-        git diff --name-only HEAD^ HEAD &gt; files.txt
-        while IFS= read -r file
-        do
-          echo $file
-          if [[ $file != rp2040/* ]]; then
-            echo "This modified file is not under the 'db' folder."
-            echo "::set-output name=run_job::false"
-            break
-          else
-            echo "::set-output name=run_job::true"
-          fi
-        done &lt; files.txt
   build:
     strategy:
       fail-fast: false
@@ -49,8 +22,6 @@ jobs:
     defaults:
       run:
         working-directory: "rp2040"
-    needs: check
-    if: needs.check.outputs.run_job == 'true'
     runs-on: ubuntu-latest
 
     steps:
