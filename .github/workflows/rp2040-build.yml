@@ -28,6 +28,13 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v4
 
+    - name: Checkout LVGL
+      uses: actions/checkout@v4
+      with:
+        repository: lvgl/lvgl
+        path: lvgl
+        submodules: true
+
     - name: Checkout pico-sdk/develop
       uses: actions/checkout@v4
       with:
