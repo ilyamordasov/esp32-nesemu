@@ -1,14 +1,4 @@
-ESP32-NESEMU, a Nintendo Entertainment System emulator for the ESP32
-====================================================================
-
-This is a quick and dirty port of Nofrendo, a Nintendo Entertainment System emulator. It lacks sound, but can emulate a NES at close
-to full speed, albeit with some framedrop due to the way the display is driven.
-
-Warning
--------
-
-This is a proof-of-concept and not an official application note. As such, this code is entirely unsupported by Espressif.
-
+|rp2040-build-status| |esp32-build-status|
 
 Compiling
 ---------
@@ -74,9 +64,10 @@ ROM
 ---
 This NES emulator does not come with a ROM. Please supply your own and flash to address 0x00100000. You can use the flashrom.sh script as a template for doing so.
 
-Copyright
----------
+.. |rp2040-build-status| image:: https://github.com/ilyamordasov/esp32-nesemu/actions/workflows/rp2040-build.yml/badge.svg
+    :alt: Build and Publish RP2040 Application
+    :target: https://github.com/ilyamordasov/esp32-nesemu/actions/workflows/rp2040-build.yml
 
-Code in this repository is Copyright (C) 2016 Espressif Systems, licensed under the Apache License 2.0 as described in the file LICENSE. Code in the
-components/nofrendo is Copyright (c) 1998-2000 Matthew Conte (matt@conte.com) and licensed under the GPLv2.
-
+.. |esp32-build-status| image:: https://github.com/ilyamordasov/esp32-nesemu/actions/workflows/esp-build.yml/badge.svg
+    :alt: Build and Publish ESP32 Application
+    :target: https://github.com/ilyamordasov/esp32-nesemu/actions/workflows/esp-build.yml
